@@ -3,13 +3,13 @@ import os
 
 import tensorflow as tf
 from tensorflow.keras import layers
-from tensorflow.keras.callbacks import LambdaCallback, TensorBoard, ModelCheckpoint, Callback
+from tensorflow.python.keras.callbacks import LambdaCallback, TensorBoard, ModelCheckpoint, Callback
 from tensorflow.keras.models import Model, load_model
 
 import Logger
 
 
-def run_model(build_model, metrics, confusion_matrix, image_visual, projector):
+def run_model(build_model, logger, metrics, confusion_matrix, image_visual, projector):
     #init = logger.logger.__init__
     model = build_model.model
     train_data = build_model.train_data

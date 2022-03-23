@@ -8,8 +8,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-PATH_TRAIN = 'C:/Users/timcl/PycharmProjects/publisherIdentify/data/training/'
-PATH_TEST = 'C:/Users/timcl/PycharmProjects/publisherIdentify/data/testing/'
+PATH_TRAIN = 'C:/Users/timcl/DataspellProjects/PubIdentify/data/training/'
+PATH_TEST = 'C:/Users/timcl/DataspellProjects/PubIdentify/data/testing/'
 
 
 class DataGenerator:
@@ -37,12 +37,11 @@ class DataGenerator:
                                                             class_mode=None, batch_size=1, shuffle=False)
         print()
         self.class_num = self.train_data.num_classes
-        self.test_num = self.test_data.n
         self.class_counter = list(Counter(self.train_data.classes).values())
         self.class_counter_valid = list(Counter(self.valid_data.classes).values())
         self.class_names = list(self.train_data.class_indices)
         self.labels = self.train_data.labels
-        self.test_labels = list(range(self.class_num)) * (int(self.test_num) // self.class_num)
+        self.test_labels = list(range(self.class_num)) * (int(self.test_data.n) // self.class_num)
 
     def generator_info(self):
         # Print info about the generated data

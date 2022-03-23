@@ -14,7 +14,6 @@ class BuildModel:
         self.width = data_generator.width
         self.height = data_generator.height
         self.class_num = data_generator.class_num
-        self.test_num = data_generator.test_num
         self.class_names = data_generator.class_names
         self.steps = data_generator.steps
         self.val_steps = data_generator.val_steps
@@ -23,16 +22,15 @@ class BuildModel:
         self.valid_data = data_generator.valid_data
         self.test_data = data_generator.test_data
         self.test_labels = data_generator.test_labels
-        self.current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M")
-
         # self.publisher_names = list(self.train_data.class_indices.keys())[0:self.class_num]
 
     def compile_model(self, epochs, network, pooling, optimizer, learn_rate, summary):
         self.epochs = epochs
         self.network = network
-        self.pool = pooling
-        self.opt = optimizer
         self.lr = learn_rate
+        self.opt = optimizer
+        self.pool = pooling
+        self.current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M")
 
         base = self.network(include_top=False, weights='imagenet',
                             input_shape=(self.width, self.height, 3), pooling=self.pool)
@@ -42,6 +40,8 @@ class BuildModel:
         x = layers.Dense(self.class_num, activation='softmax')(x)
         self.model = Model(base.input, x)
         self.model.compile(loss='categorical_crossentropy', metrics=['acc'], optimizer=opt)
+        # self.embeddings = Model(inputs=self.model.inputs,
+        #                        outputs=self.model.layers[-2].output)
 
         if summary:
             self.model.summary()

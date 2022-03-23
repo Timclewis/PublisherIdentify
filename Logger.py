@@ -20,7 +20,7 @@ class Logger:
         self.test_data = build_model.test_data
         self.class_names = build_model.class_names
         self.class_num = build_model.class_num
-        self.test_num = build_model.test_num
+        self.test_num = build_model.test_data.n
         self.test_labels = build_model.test_labels
 
         self.network = build_model.network
@@ -45,8 +45,7 @@ class Logger:
         self.file_writer_cm = tf.summary.create_file_writer(f'{self.log_dir}/cm')
         self.file_writer_image = tf.summary.create_file_writer(f'{self.log_dir}/image')
 
-    def log_projection(self, logger, epoch):
-        self.test_num = logger.test_num
+    def log_projection(self, epoch):
         log_dir = join('tensorboard_logs')
         if not exists(log_dir):
             os.makedirs(log_dir)
@@ -103,6 +102,7 @@ class Logger:
         # Use the model to predict the values from the test_images.
         test_pred_raw = self.model.predict(self.test_data)
         test_pred = np.argmax(test_pred_raw, axis=1)
+        logs: print(self.batch_size)
 
         # Calculate the confusion matrix using sklearn.metrics
         cm = confusion_matrix(self.test_labels, test_pred)
